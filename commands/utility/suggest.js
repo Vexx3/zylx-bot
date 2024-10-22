@@ -4,6 +4,7 @@ const {
   ButtonBuilder,
   ButtonStyle,
   EmbedBuilder,
+  PermissionsBitField,
   Colors,
 } = require("discord.js");
 
@@ -52,12 +53,20 @@ module.exports = {
         .setCustomId("approve")
         .setLabel("✅ Approve")
         .setStyle(ButtonStyle.Success)
-        .setDisabled(!interaction.member.permissions.has("MANAGE_MESSAGES")),
+        .setDisabled(
+          !interaction.member.permissions.has(
+            PermissionsBitField.Flags.ManageMessages
+          )
+        ),
       new ButtonBuilder()
         .setCustomId("reject")
         .setLabel("🗑️ Reject")
         .setStyle(ButtonStyle.Danger)
-        .setDisabled(!interaction.member.permissions.has("MANAGE_MESSAGES"))
+        .setDisabled(
+          !interaction.member.permissions.has(
+            PermissionsBitField.Flags.ManageMessages
+          )
+        )
     );
 
     const message = await interaction.reply({
@@ -101,7 +110,7 @@ module.exports = {
         }
       } else if (
         i.customId === "approve" &&
-        i.member.permissions.has("MANAGE_MESSAGES")
+        i.member.permissions.has(PermissionsBitField.Flags.ManageMessages)
       ) {
         status = `✅ Approved by <@${userId}>`;
         embed.setColor(Colors.Green);
@@ -109,7 +118,7 @@ module.exports = {
         modRow.components.forEach((button) => button.setDisabled(true));
       } else if (
         i.customId === "reject" &&
-        i.member.permissions.has("MANAGE_MESSAGES")
+        i.member.permissions.has(PermissionsBitField.Flags.ManageMessages)
       ) {
         status = `🗑️ Rejected by <@${userId}>`;
         embed.setColor(Colors.Red);
