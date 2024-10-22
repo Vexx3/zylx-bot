@@ -8,7 +8,7 @@ module.exports = {
   async execute(interaction) {
     try {
       const response = await axios.get(
-        "https://www.reddit.com/r/memes/random/.json",
+        "https://www.reddit.com/r/memes/top/.json?limit=100",
         {
           headers: {
             "User-Agent": "zylx-bot/1.0",
