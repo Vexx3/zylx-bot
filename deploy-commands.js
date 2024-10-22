@@ -1,5 +1,5 @@
 const { REST, Routes } = require("discord.js");
-const { clientId, guildId, token } = require("./config.json");
+//const { clientId, guildId, token } = require("./config.json");
 const fs = require("fs");
 const path = require("path");
 
@@ -27,7 +27,7 @@ for (const folder of commandsFolders) {
   }
 }
 
-const rest = new REST().setToken(token);
+const rest = new REST().setToken(process.env.token);
 
 (async () => {
   try {
@@ -36,7 +36,7 @@ const rest = new REST().setToken(token);
     );
 
     const data = await rest.put(
-      Routes.applicationGuildCommands(clientId, guildId),
+      Routes.applicationGuildCommands(process.env.clientId, process.env.guildId),
       { body: commands }
     );
 
