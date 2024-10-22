@@ -8,7 +8,12 @@ module.exports = {
   async execute(interaction) {
     try {
       const response = await axios.get(
-        "https://www.reddit.com/r/memes/random/.json"
+        "https://www.reddit.com/r/memes/random/.json",
+        {
+          headers: {
+            "User-Agent": "zylx-bot/1.0",
+          },
+        }
       );
       const [post] = response.data[0].data.children;
       const meme = post.data;
