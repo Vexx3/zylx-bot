@@ -50,17 +50,17 @@ module.exports = {
       let taxText = "";
       if (applyTax) {
         result = Math.floor(result * 0.7);
-        taxText = "+ 30%";
+        taxText = "+ 30% (tax)";
       }
-      rateDescription = `$ ${amount} ÷ ${customRate} (rate) ${taxText} (tax) = **R$ ${result}**`;
+      rateDescription = `$ ${amount} ÷ ${customRate} (rate) ${taxText} = **R$ ${result}**`;
     } else if (conversionType === "robux_to_usd") {
       result = Math.floor(amount * customRate);
       let taxText = "";
       if (applyTax) {
         result = Math.floor((result *= 1.3));
-        taxText = "+ 30%";
+        taxText = "+ 30% (tax)";
       }
-      rateDescription = `R$ ${amount} x ${customRate} (rate) ${taxText} (tax) = **$ ${result}**`;
+      rateDescription = `R$ ${amount} x ${customRate} (rate) ${taxText} = **$ ${result}**`;
     }
 
     const embed = new EmbedBuilder()
