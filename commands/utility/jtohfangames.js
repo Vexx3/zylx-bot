@@ -174,7 +174,7 @@ module.exports = {
         .setColor("Random");
 
       const gameButton = new ButtonBuilder()
-        .setLabel("Play Game")
+        .setLabel("View Game")
         .setStyle(ButtonStyle.Link)
         .setURL(`https://www.roblox.com/games/${gameID}`);
 
