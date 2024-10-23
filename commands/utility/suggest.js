@@ -59,14 +59,14 @@ module.exports = {
         .setCustomId("approve")
         .setLabel("Approve")
         .setStyle(ButtonStyle.Success)
-        .setDisabled(!isMod)
-        .setEmoji("✅"),
+        .setEmoji("✅")
+        .setDisabled(isMod ? false : true),
       new ButtonBuilder()
         .setCustomId("reject")
         .setLabel("Reject")
         .setStyle(ButtonStyle.Danger)
-        .setDisabled(!isMod)
         .setEmoji("🗑️")
+        .setDisabled(isMod ? false : true)
     );
 
     const message = await interaction.reply({
