@@ -40,7 +40,7 @@ module.exports = {
     .addStringOption((option) =>
       option
         .setName("game")
-        .setDescription('Select a game or type "random" for a random game')
+        .setDescription("Select a game")
         .setRequired(false)
         .setAutocomplete(true)
     )
