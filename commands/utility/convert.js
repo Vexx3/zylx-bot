@@ -68,24 +68,8 @@ module.exports = {
 
     const embed = new EmbedBuilder()
       .setColor("#0099ff")
-      .setTitle("Conversion Result")
       .setDescription(rateDescription)
-      .addFields(
-        { name: "Amount", value: `${amount}`, inline: true },
-        {
-          name: "Conversion Type",
-          value: conversionType.replace("_", " ").toUpperCase(),
-          inline: true,
-        },
-        {
-          name: "Applied Tax",
-          value: applyTax ? "Yes (+30%)" : "No",
-          inline: true,
-        },
-        { name: "Custom Rate", value: `${customRate} USD/Robux`, inline: true },
-      )
-      .setFooter({ text: "Robux Convert" })
-      .setTimestamp();
+      .setFooter({ text: "The DevEx exchange rate is $.0035/R$. The sales tax is %30" })
     await interaction.reply({ embeds: [embed] });
   },
 };
