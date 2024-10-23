@@ -1,4 +1,11 @@
-const { SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require("discord.js");
+const {
+  SlashCommandBuilder,
+  EmbedBuilder,
+  ActionRowBuilder,
+  ButtonBuilder,
+  ButtonStyle,
+  TimestampStyles
+} = require("discord.js");
 const axios = require("axios");
 
 const gameList = {
@@ -19,29 +26,29 @@ module.exports = {
     .addStringOption((option) =>
       option
         .setName("game")
-        .setDescription("Select a game or type \"random\" for a random game")
+        .setDescription('Select a game or type "random" for a random game')
         .setRequired(false)
         .setAutocomplete(true),
     )
-    .addBooleanOption(option =>
+    .addBooleanOption((option) =>
       option
         .setName("random")
         .setDescription("Get a random fangame instead of selecting one.")
-        .setRequired(false)
-      ),
+        .setRequired(false),
+    ),
   async autocomplete(interaction) {
     const focusedValue = interaction.options.getFocused();
     const choices = Object.values(gameList);
 
     console.log("Focused Value: ", focusedValue);
     console.log("Available choices: ", choices);
-    
+
     const filtered = choices.filter((choice) =>
       choice.toLowerCase().includes(focusedValue.toLowerCase()),
     );
 
     console.log("Filtered choices: ", filtered);
-    
+
     if (!filtered.length) {
       return interaction.respond([]);
     }
@@ -93,12 +100,23 @@ module.exports = {
         });
       }
 
-      const iconResponse = await axios.get(`https://thumbnails.roblox.com/v1/games/icons?universeIds=${universeId}&size=512x512&format=png&isCircular=false`);
+      const iconResponse = await axios.get(
+        `https://thumbnails.roblox.com/v1/games/icons?universeIds=${universeId}&size=512x512&format=png&isCircular=false`,
+      );
       const iconUrl = iconResponse.data.data[0].imageUrl;
 
+      const creatorType = gameInfo.creator.type;
+      const creatorId = gameInfo.creator.id;
+      const creatorUrl =
+        creatorType === "Group"
+          ? `https://www.roblox.com/groups/${creatorId}`
+          : `https://www.roblox.com/users/${creatorId}/profile`;
+
+      const createdAt = `<t:${Math.floor(new Date(gameInfo.created).getTime() / 1000)}:F>`;
+      
       const gameEmbed = new EmbedBuilder()
         .setTitle(gameInfo.name)
-        .setAuthor({ name: gameInfo.creator.name })
+        .setAuthor({ name: gameInfo.creator.name, url: creatorUrl })
         .setDescription(gameInfo.description || "No description available.")
         .addFields(
           {
@@ -111,6 +129,10 @@ module.exports = {
             value: gameInfo.favoritedCount.toLocaleString(),
             inline: true,
           },
+          {
+            name: "Created At",
+            value: createdAt
+          }
         )
         .setImage(iconUrl)
         .setColor("Random");
