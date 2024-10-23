@@ -96,7 +96,7 @@ module.exports = {
         .setStyle(ButtonStyle.Link)
         .setURL(`https://www.roblox.com/games/${gameID}`);
 
-      const actionRow = new ActionRowBuilder().addComponenents(gameButton);
+      const actionRow = new ActionRowBuilder().addComponents(gameButton);
 
       await interaction.reply({ embeds: [gameEmbed] });
     } catch (error) {
