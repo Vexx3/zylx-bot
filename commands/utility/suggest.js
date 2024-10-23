@@ -50,23 +50,17 @@ module.exports = {
         .setEmoji("👎")
     );
 
-    const isMod = interaction.member.permissions.has(
-      PermissionsBitField.Flags.ManageMessages
-    );
-
     const modRow = new ActionRowBuilder().addComponents(
       new ButtonBuilder()
         .setCustomId("approve")
         .setLabel("Approve")
         .setStyle(ButtonStyle.Success)
-        .setEmoji("✅")
-        .setDisabled(isMod ? false : true),
+        .setEmoji("✅"),
       new ButtonBuilder()
         .setCustomId("reject")
         .setLabel("Reject")
         .setStyle(ButtonStyle.Danger)
         .setEmoji("🗑️")
-        .setDisabled(isMod ? false : true)
     );
 
     const message = await interaction.reply({
