@@ -26,7 +26,7 @@ module.exports = {
     .addBooleanOption(option =>
       option
         .setName("random")
-        .description("Get a random fangame instead of selecting one.")
+        .setDescription("Get a random fangame instead of selecting one.")
         .setRequired(false)
       ),
   async autocomplete(interaction) {
