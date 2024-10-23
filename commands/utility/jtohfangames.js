@@ -20,25 +20,43 @@ module.exports = {
       option
         .setName("game")
         .setDescription("Select a game")
-        .setRequired(true)
+        .setRequired(false)
         .setAutocomplete(true),
-    ),
+    )
+    .addBooleanOption(option =>
+      option
+        .setName("random")
+        .description("Get a random fangame instead of selecting one.")
+        .setRequired(false)
+      ),
   async autocomplete(interaction) {
     const focusedValue = interaction.options.getFocused();
     const choices = Object.values(gameList);
     const filtered = choices.filter((choice) =>
       choice.toLowerCase().includes(focusedValue.toLowerCase()),
     );
+
+    if (!filtered.length) {
+      return interaction.respond([]);
+    }
     await interaction.respond(
       filtered.map((choice) => ({ name: choice, value: choice })),
     );
   },
 
   async execute(interaction) {
-    const selectedGame = interaction.options.getString("game");
-    const gameID = Object.keys(gameList).find(
-      (key) => gameList[key] === selectedGame,
-    );
+    const isRandom = interaction.options.getBoolean("random");
+    let gameId;
+
+    if (isRandom) {
+      const gameKeys = Object.keys(gameList);
+      gameID = gameKeys[Math.floor(Math.random() * gameKeys.length)];
+    } else {
+      const selectedGame = interaction.options.getString("game");
+      gameID = Object.keys(gameList).find(
+        (key) => gameList[key] === selectedGame,
+      );
+    }
 
     if (!gameID) {
       return interaction.reply({ content: "Game not found", ephemeral: true });
