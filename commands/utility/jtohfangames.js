@@ -39,19 +39,9 @@ module.exports = {
   async autocomplete(interaction) {
     const focusedValue = interaction.options.getFocused();
     const choices = Object.values(gameList);
-
-    console.log("Focused Value: ", focusedValue);
-    console.log("Available choices: ", choices);
-
     const filtered = choices.filter((choice) =>
       choice.toLowerCase().includes(focusedValue.toLowerCase()),
     );
-
-    console.log("Filtered choices: ", filtered);
-
-    if (!filtered.length) {
-      return interaction.respond([]);
-    }
     await interaction.respond(
       filtered.map((choice) => ({ name: choice, value: choice })),
     );
