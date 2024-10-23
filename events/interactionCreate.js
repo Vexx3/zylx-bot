@@ -10,7 +10,7 @@ module.exports = {
 
     if (interaction.isChatInputCommand()) {
       // command handling
-    } else if (interaction.isAutoComplete()) {
+    } else if (interaction.isAutocomplete()) {
       const command = interaction.client.commands.get(interaction.commandName);
 
       if (!command) {
@@ -21,12 +21,14 @@ module.exports = {
       }
     }
 
+    /*
     if (!command) {
       console.error(
         `No command matching ${interaction.commandName} was found.`,
       );
       return;
     }
+    */
 
     const { cooldowns } = interaction.client;
 
