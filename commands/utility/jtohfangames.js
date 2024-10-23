@@ -69,6 +69,9 @@ module.exports = {
         });
       }
 
+      const iconResponse = await axios.get(`https://thumbnails.roblox.com/v1/games/icons?universeIds=${universeId}&size=512x512&format=png&isCircular=false`);
+      const iconUrl = iconResponse.data.data[0].imageUrl;
+
       const gameEmbed = new EmbedBuilder()
         .setTitle(gameInfo.name)
         .setAuthor({ name: gameInfo.creator.name })
@@ -85,9 +88,7 @@ module.exports = {
             inline: true,
           },
         )
-        .setImage(
-          `https://www.roblox.com/asset-thumbnail/image?assetId=${gameID}&width=768&height=432&format=png`,
-        )
+        .setImage(iconUrl)
         .setColor("Random");
 
       await interaction.reply({ embeds: [gameEmbed] });
