@@ -56,7 +56,7 @@ module.exports = {
     } else if (conversionType === "robux_to_usd") {
       result = amount * customRate;
       if (applyTax) {
-        result *= 1.3;
+        result += result * 0.3;
       }
       if (result < 1) {
         result = Math.floor(result);
