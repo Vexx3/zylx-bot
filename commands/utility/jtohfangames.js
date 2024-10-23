@@ -130,7 +130,7 @@ module.exports = {
       const updatedAt = `<t:${Math.floor(new Date(gameInfo.updated).getTime() / 1000)}:R>`;
 
       const gameEmbed = new EmbedBuilder()
-        .setTitle(gameInfo.name)
+        .setTitle(`[${gameInfo.name}](https://www.roblox.com/games/${gameID})`)
         .setAuthor({ name: gameInfo.creator.name, url: creatorUrl })
         .setDescription(gameInfo.description || "No description available.")
         .addFields(
@@ -176,7 +176,7 @@ module.exports = {
       const gameButton = new ButtonBuilder()
         .setLabel("Play Game")
         .setStyle(ButtonStyle.Link)
-        .setURL(`https://www.roblox.com/games/${gameID}`);
+        .setURL(`roblox://game?id=${gameID}`);
 
       const actionRow = new ActionRowBuilder().addComponents(gameButton);
 
