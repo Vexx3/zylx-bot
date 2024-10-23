@@ -4,7 +4,6 @@ const {
   ActionRowBuilder,
   ButtonBuilder,
   ButtonStyle,
-  TimestampStyles,
 } = require("discord.js");
 const axios = require("axios");
 
