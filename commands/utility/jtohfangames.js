@@ -98,7 +98,7 @@ module.exports = {
 
       const actionRow = new ActionRowBuilder().addComponents(gameButton);
 
-      await interaction.reply({ embeds: [gameEmbed] });
+      await interaction.reply({ embeds: [gameEmbed], components: [actionRow] });
     } catch (error) {
       console.error(error);
       return interaction.reply({
