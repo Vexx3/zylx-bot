@@ -176,7 +176,7 @@ module.exports = {
       const gameButton = new ButtonBuilder()
         .setLabel("Play Game")
         .setStyle(ButtonStyle.Link)
-        .setURL(`roblox://game?id=${gameID}`);
+        .setURL(`https://www.roblox.com/games/${gameID}`);
 
       const actionRow = new ActionRowBuilder().addComponents(gameButton);
 
