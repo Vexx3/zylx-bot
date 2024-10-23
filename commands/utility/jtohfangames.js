@@ -86,7 +86,7 @@ module.exports = {
           },
         )
         .setImage(
-          `https://www.roblox.com/asset-thumbnail/image?assetId=${gameID}&width768&height=432&format=png`,
+          `https://www.roblox.com/asset-thumbnail/image?assetId=${gameID}&width=768&height=432&format=png`,
         )
         .setColor("Random");
 
