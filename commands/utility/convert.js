@@ -46,30 +46,25 @@ module.exports = {
     let rateDescription;
 
     if (conversionType === "usd_to_robux") {
-      result = amount / customRate;
+      Math.floor((result = amount / customRate));
       if (applyTax) {
         result *= 0.7;
       }
-      rateDescription = `$ ${amount} ÷ ${customRate} (rate) = ${Math.floor(
-        result,
-      )}`;
+      rateDescription = `$ ${amount} ÷ ${customRate} (rate) = ${Math.floor(result)}`;
     } else if (conversionType === "robux_to_usd") {
-      result = amount * customRate;
+      result = Math.floor(amount * customRate);
       if (applyTax) {
-        result += result * 0.3;
+        result = Math.floor((result *= 1.3));
       }
-      if (result < 1) {
-        result = Math.floor(result);
-      }
-      rateDescription = `R$ ${amount} x ${customRate} (rate) = $${result.toFixed(
-        2,
-      )}`;
+      rateDescription = `R$ ${amount} x ${customRate} (rate) = $${result}`;
     }
 
     const embed = new EmbedBuilder()
       .setColor("#0099ff")
       .setDescription(rateDescription)
-      .setFooter({ text: "The DevEx exchange rate is $.0035/R$. The sales tax is %30" })
+      .setFooter({
+        text: "The DevEx exchange rate is $.0035/R$. The sales tax is %30",
+      });
     await interaction.reply({ embeds: [embed] });
   },
 };
