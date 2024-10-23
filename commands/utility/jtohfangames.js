@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
+const { SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require("discord.js");
 const axios = require("axios");
 
 const gameList = {
@@ -90,6 +90,13 @@ module.exports = {
         )
         .setImage(iconUrl)
         .setColor("Random");
+
+      const gameButton = new ButtonBuilder()
+        .setLabel("Play Game")
+        .setStyle(ButtonStyle.Link)
+        .setURL(`https://www.roblox.com/games/${gameID}`);
+
+      const actionRow = new ActionRowBuilder().addComponenents(gameButton);
 
       await interaction.reply({ embeds: [gameEmbed] });
     } catch (error) {
