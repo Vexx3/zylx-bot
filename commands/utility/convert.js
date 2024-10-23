@@ -46,17 +46,21 @@ module.exports = {
     let rateDescription;
 
     if (conversionType === "usd_to_robux") {
-      Math.floor((result = amount / customRate));
+      result = Math.floor((amount / customRate));
+      let taxText = "";
       if (applyTax) {
-        result *= 0.7;
+        result = Math.floor(result * 0.7);
+        taxText = "+ 30%";
       }
-      rateDescription = `$ ${amount} ÷ ${customRate} (rate) = ${Math.floor(result)}`;
+      rateDescription = `$ ${amount} ÷ ${customRate} (rate) ${taxText} (tax) = **R$ ${result}**`;
     } else if (conversionType === "robux_to_usd") {
       result = Math.floor(amount * customRate);
+      let taxText = "";
       if (applyTax) {
         result = Math.floor((result *= 1.3));
+        taxText = "+ 30%";
       }
-      rateDescription = `R$ ${amount} x ${customRate} (rate) = $${result}`;
+      rateDescription = `R$ ${amount} x ${customRate} (rate) ${taxText} (tax) = **$ ${result}**`;
     }
 
     const embed = new EmbedBuilder()
