@@ -19,7 +19,7 @@ module.exports = {
     .addStringOption((option) =>
       option
         .setName("game")
-        .setDescription("Select a game")
+        .setDescription("Select a game or type \"random\" for a random game")
         .setRequired(false)
         .setAutocomplete(true),
     )
@@ -32,10 +32,16 @@ module.exports = {
   async autocomplete(interaction) {
     const focusedValue = interaction.options.getFocused();
     const choices = Object.values(gameList);
+
+    console.log("Focused Value: ", focusedValue);
+    console.log("Available choices: ", choices);
+    
     const filtered = choices.filter((choice) =>
       choice.toLowerCase().includes(focusedValue.toLowerCase()),
     );
 
+    console.log("Filtered choices: ", filtered);
+    
     if (!filtered.length) {
       return interaction.respond([]);
     }
