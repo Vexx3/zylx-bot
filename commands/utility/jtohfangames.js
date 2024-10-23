@@ -130,7 +130,7 @@ module.exports = {
       const updatedAt = `<t:${Math.floor(new Date(gameInfo.updated).getTime() / 1000)}:R>`;
 
       const gameEmbed = new EmbedBuilder()
-        .setTitle(`[${gameInfo.name}](https://www.roblox.com/games/${gameID})`)
+        .setTitle(gameInfo.name)
         .setAuthor({ name: gameInfo.creator.name, url: creatorUrl })
         .setDescription(gameInfo.description || "No description available.")
         .addFields(
