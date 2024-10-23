@@ -3,13 +3,27 @@ const { Events, Collection } = require("discord.js");
 module.exports = {
   name: Events.InteractionCreate,
   async execute(interaction) {
-    if (!interaction.isChatInputCommand()) return;
+    //if (!interaction.isChatInputCommand()) return;
+    if (!interaction.isAutocomplete()) return;
 
     const command = interaction.client.commands.get(interaction.commandName);
 
+    if (interaction.isChatInputCommand()) {
+      // command handling
+    } else if (interaction.isAutoComplete()) {
+      const command = interaction.client.commands.get(interaction.commandName);
+
+      if (!command) {
+        console.error(
+          `No command matching ${interaction.commandName} was found.`,
+        );
+        return;
+      }
+    }
+
     if (!command) {
       console.error(
-        `No command matching ${interaction.commandName} was found.`
+        `No command matching ${interaction.commandName} was found.`,
       );
       return;
     }
@@ -43,7 +57,7 @@ module.exports = {
     setTimeout(() => timestamps.delete(interaction.user.id), cooldownAmount);
 
     try {
-      await command.execute(interaction);
+      await command.autocomplete(interaction);
     } catch (error) {
       console.error(error);
       if (interaction.replied || interaction.deferred) {
