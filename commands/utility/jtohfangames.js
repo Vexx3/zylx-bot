@@ -108,8 +108,8 @@ module.exports = {
       const votesResponse = await axios.get(
         `https://games.roblox.com/v1/games/votes?universeIds=${universeId}`,
       );
-      const upvotes = votesResponse.data.upVotes || 0;
-      const downvotes = votesResponse.data.downVotes || 0;
+      const upvotes = votesResponse.data.data[0].upVotes || 0;
+      const downvotes = votesResponse.data.data[0].downVotes || 0;
 
       const totalVotes = upvotes + downvotes;
       const rating =
