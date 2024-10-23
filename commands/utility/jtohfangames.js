@@ -105,6 +105,16 @@ module.exports = {
       );
       const iconUrl = iconResponse.data.data[0].imageUrl;
 
+      const votesResponse = await axios.get(
+        `https://games.roblox.com/v1/games/votes?universeIds=${universeId}`,
+      );
+      const upvotes = votesResponse.data.upVotes || 0;
+      const downvotes = votesResponse.data.downVotes || 0;
+
+      const totalVotes = upvotes + downvotes;
+      const rating =
+        totalVotes > 0 ? Math.round((upvotes / totalVotes) * 100) : 0;
+
       const creatorType = gameInfo.creator.type;
       const creatorId = gameInfo.creator.id;
       const creatorUrl =
@@ -112,7 +122,8 @@ module.exports = {
           ? `https://www.roblox.com/groups/${creatorId}`
           : `https://www.roblox.com/users/${creatorId}/profile`;
 
-      const createdAt = `<t:${Math.floor(new Date(gameInfo.created).getTime() / 1000)}:F>`;
+      const createdAt = `<t:${Math.floor(new Date(gameInfo.created).getTime() / 1000)}:R>`;
+      const updatedAt = `<t:${Math.floor(new Date(gameInfo.updated).getTime() / 1000)}:R>`;
 
       const gameEmbed = new EmbedBuilder()
         .setTitle(gameInfo.name)
@@ -130,8 +141,29 @@ module.exports = {
             inline: true,
           },
           {
+            name: "Upvotes",
+            value: upvotes.toLocaleString(),
+            inline: true,
+          },
+          {
+            name: "Downvotes",
+            value: downvotes.toLocaleString(),
+            inline: true,
+          },
+          {
+            name: "Rating",
+            value: `${rating}%`,
+            inline: true,
+          },
+          {
             name: "Created At",
             value: createdAt,
+            inline: true,
+          },
+          {
+            name: "Last Updated",
+            value: updatedAt,
+            inline: true,
           },
         )
         .setImage(iconUrl)
