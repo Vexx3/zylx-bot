@@ -17,7 +17,7 @@ module.exports = {
       option
         .setName("suggestion")
         .setDescription("The suggestion text.")
-        .setRequired(true)
+        .setRequired(true),
     ),
   async execute(interaction) {
     const suggestionText = interaction.options.getString("suggestion", true);
@@ -32,41 +32,45 @@ module.exports = {
       .addFields(
         { name: "Status", value: "⏳ Pending" },
         { name: "Upvotes", value: "0 (0%)", inline: true },
-        { name: "Downvotes", value: "0 (0%)", inline: true }
+        { name: "Downvotes", value: "0 (0%)", inline: true },
       )
       .setColor(Colors.Yellow);
 
     const voteRow = new ActionRowBuilder().addComponents(
       new ButtonBuilder()
         .setCustomId("upvote")
-        .setLabel("👍 Upvote")
-        .setStyle(ButtonStyle.Primary),
+        .setLabel("Upvote")
+        .setStyle(ButtonStyle.Primary)
+        .setEmoji("👍"),
 
       new ButtonBuilder()
         .setCustomId("downvote")
-        .setLabel("👎 Downvote")
+        .setLabel("Downvote")
         .setStyle(ButtonStyle.Primary)
+        .setEmoji("👎"),
     );
 
     const modRow = new ActionRowBuilder().addComponents(
       new ButtonBuilder()
         .setCustomId("approve")
-        .setLabel("✅ Approve")
+        .setLabel("Approve")
         .setStyle(ButtonStyle.Success)
         .setDisabled(
           !interaction.member.permissions.has(
-            PermissionsBitField.Flags.ManageMessages
-          )
-        ),
+            PermissionsBitField.Flags.ManageMessages,
+          ),
+        )
+        .setEmoji("✅"),
       new ButtonBuilder()
         .setCustomId("reject")
-        .setLabel("🗑️ Reject")
+        .setLabel("Reject")
         .setStyle(ButtonStyle.Danger)
         .setDisabled(
           !interaction.member.permissions.has(
-            PermissionsBitField.Flags.ManageMessages
-          )
+            PermissionsBitField.Flags.ManageMessages,
+          ),
         )
+        .setEmoji("🗑️"),
     );
 
     const message = await interaction.reply({
@@ -145,7 +149,7 @@ module.exports = {
           name: "👎 Downvotes",
           value: `${downvotes} (${downvotePercentage}%)`,
           inline: true,
-        }
+        },
       );
 
       await i.update({ embeds: [embed], components: [voteRow, modRow] });
