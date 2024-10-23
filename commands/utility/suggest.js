@@ -17,7 +17,7 @@ module.exports = {
       option
         .setName("suggestion")
         .setDescription("The suggestion text.")
-        .setRequired(true),
+        .setRequired(true)
     ),
   async execute(interaction) {
     const suggestionText = interaction.options.getString("suggestion", true);
@@ -32,7 +32,7 @@ module.exports = {
       .addFields(
         { name: "Status", value: "⏳ Pending" },
         { name: "Upvotes", value: "0 (0%)", inline: true },
-        { name: "Downvotes", value: "0 (0%)", inline: true },
+        { name: "Downvotes", value: "0 (0%)", inline: true }
       )
       .setColor(Colors.Yellow);
 
@@ -47,7 +47,11 @@ module.exports = {
         .setCustomId("downvote")
         .setLabel("Downvote")
         .setStyle(ButtonStyle.Primary)
-        .setEmoji("👎"),
+        .setEmoji("👎")
+    );
+
+    const isMod = interaction.member.permissions.has(
+      PermissionsBitField.Flags.ManageMessages
     );
 
     const modRow = new ActionRowBuilder().addComponents(
@@ -55,22 +59,14 @@ module.exports = {
         .setCustomId("approve")
         .setLabel("Approve")
         .setStyle(ButtonStyle.Success)
-        .setDisabled(
-          !interaction.member.permissions.has(
-            PermissionsBitField.Flags.ManageMessages,
-          ),
-        )
+        .setDisabled(!isMod)
         .setEmoji("✅"),
       new ButtonBuilder()
         .setCustomId("reject")
         .setLabel("Reject")
         .setStyle(ButtonStyle.Danger)
-        .setDisabled(
-          !interaction.member.permissions.has(
-            PermissionsBitField.Flags.ManageMessages,
-          ),
-        )
-        .setEmoji("🗑️"),
+        .setDisabled(!isMod)
+        .setEmoji("🗑️")
     );
 
     const message = await interaction.reply({
@@ -113,19 +109,14 @@ module.exports = {
           userVotes.set(userId, "downvote");
         }
       } else if (
-        i.customId === "approve" &&
+        (i.customId === "approve" || i.customId === "reject") &&
         i.member.permissions.has(PermissionsBitField.Flags.ManageMessages)
       ) {
-        status = `✅ Approved by <@${userId}>`;
-        embed.setColor(Colors.Green);
-        voteRow.components.forEach((button) => button.setDisabled(true));
-        modRow.components.forEach((button) => button.setDisabled(true));
-      } else if (
-        i.customId === "reject" &&
-        i.member.permissions.has(PermissionsBitField.Flags.ManageMessages)
-      ) {
-        status = `🗑️ Rejected by <@${userId}>`;
-        embed.setColor(Colors.Red);
+        status =
+          i.customId === "approve"
+            ? `✅ Approved by <@${userId}>`
+            : `🗑️ Rejected by <@${userId}>`;
+        embed.setColor(i.customId === "approve" ? Colors.Green : Colors.Red);
         voteRow.components.forEach((button) => button.setDisabled(true));
         modRow.components.forEach((button) => button.setDisabled(true));
       }
@@ -149,7 +140,7 @@ module.exports = {
           name: "👎 Downvotes",
           value: `${downvotes} (${downvotePercentage}%)`,
           inline: true,
-        },
+        }
       );
 
       await i.update({ embeds: [embed], components: [voteRow, modRow] });
