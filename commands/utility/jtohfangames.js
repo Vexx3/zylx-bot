@@ -42,22 +42,22 @@ module.exports = {
         .setName("game")
         .setDescription('Select a game or type "random" for a random game')
         .setRequired(false)
-        .setAutocomplete(true),
+        .setAutocomplete(true)
     )
     .addBooleanOption((option) =>
       option
         .setName("random")
         .setDescription("Get a random fangame instead of selecting one.")
-        .setRequired(false),
+        .setRequired(false)
     ),
   async autocomplete(interaction) {
     const focusedValue = interaction.options.getFocused();
     const choices = Object.values(gameList);
     const filtered = choices.filter((choice) =>
-      choice.toLowerCase().includes(focusedValue.toLowerCase()),
+      choice.toLowerCase().includes(focusedValue.toLowerCase())
     );
     await interaction.respond(
-      filtered.map((choice) => ({ name: choice, value: choice })),
+      filtered.map((choice) => ({ name: choice, value: choice }))
     );
   },
 
@@ -71,7 +71,7 @@ module.exports = {
     } else {
       const selectedGame = interaction.options.getString("game");
       gameID = Object.keys(gameList).find(
-        (key) => gameList[key] === selectedGame,
+        (key) => gameList[key] === selectedGame
       );
     }
 
@@ -81,7 +81,7 @@ module.exports = {
 
     try {
       const universeResponse = await axios.get(
-        `https://apis.roblox.com/universes/v1/places/${gameID}/universe`,
+        `https://apis.roblox.com/universes/v1/places/${gameID}/universe`
       );
       const universeId = universeResponse.data.universeId;
 
@@ -93,7 +93,7 @@ module.exports = {
       }
 
       const gameResponse = await axios.get(
-        `https://games.roblox.com/v1/games?universeIds=${universeId}`,
+        `https://games.roblox.com/v1/games?universeIds=${universeId}`
       );
       const gameInfo = gameResponse.data.data[0];
 
@@ -105,12 +105,12 @@ module.exports = {
       }
 
       const iconResponse = await axios.get(
-        `https://thumbnails.roblox.com/v1/games/icons?universeIds=${universeId}&size=512x512&format=png&isCircular=false`,
+        `https://thumbnails.roblox.com/v1/games/icons?universeIds=${universeId}&size=512x512&format=png&isCircular=false`
       );
       const iconUrl = iconResponse.data.data[0].imageUrl;
 
       const votesResponse = await axios.get(
-        `https://games.roblox.com/v1/games/votes?universeIds=${universeId}`,
+        `https://games.roblox.com/v1/games/votes?universeIds=${universeId}`
       );
       const upvotes = votesResponse.data.data[0].upVotes || 0;
       const downvotes = votesResponse.data.data[0].downVotes || 0;
@@ -126,8 +126,12 @@ module.exports = {
           ? `https://www.roblox.com/groups/${creatorId}`
           : `https://www.roblox.com/users/${creatorId}/profile`;
 
-      const createdAt = `<t:${Math.floor(new Date(gameInfo.created).getTime() / 1000)}:R>`;
-      const updatedAt = `<t:${Math.floor(new Date(gameInfo.updated).getTime() / 1000)}:R>`;
+      const createdAt = `<t:${Math.floor(
+        new Date(gameInfo.created).getTime() / 1000
+      )}:R>`;
+      const updatedAt = `<t:${Math.floor(
+        new Date(gameInfo.updated).getTime() / 1000
+      )}:R>`;
 
       const gameEmbed = new EmbedBuilder()
         .setTitle(gameInfo.name)
@@ -168,7 +172,7 @@ module.exports = {
             name: "Last Updated",
             value: updatedAt,
             inline: true,
-          },
+          }
         )
         .setImage(iconUrl)
         .setColor("Random");
