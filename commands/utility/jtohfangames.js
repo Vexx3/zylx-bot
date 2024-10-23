@@ -4,7 +4,7 @@ const {
   ActionRowBuilder,
   ButtonBuilder,
   ButtonStyle,
-  TimestampStyles
+  TimestampStyles,
 } = require("discord.js");
 const axios = require("axios");
 
@@ -113,7 +113,7 @@ module.exports = {
           : `https://www.roblox.com/users/${creatorId}/profile`;
 
       const createdAt = `<t:${Math.floor(new Date(gameInfo.created).getTime() / 1000)}:F>`;
-      
+
       const gameEmbed = new EmbedBuilder()
         .setTitle(gameInfo.name)
         .setAuthor({ name: gameInfo.creator.name, url: creatorUrl })
@@ -131,8 +131,8 @@ module.exports = {
           },
           {
             name: "Created At",
-            value: createdAt
-          }
+            value: createdAt,
+          },
         )
         .setImage(iconUrl)
         .setColor("Random");
