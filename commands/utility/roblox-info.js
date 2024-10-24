@@ -40,7 +40,7 @@ module.exports = {
         const response = await request(bloxlinkUrl, {
           method: "GET",
           headers: {
-            Authorization: `5b92d5df-1870-4bee-a80f-ca75cd9f1f0c`,
+            Authorization: process.env.bloxlink_api,
           },
         });
 
