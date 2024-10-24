@@ -80,15 +80,14 @@ function extractInfo(html, label, isLength = false) {
 }
 
 function extractCreators(html) {
-  const regex = /<h3 class="pi-data-label pi-secondary-font">Creator\(s\)<\/h3>\s*<div class="pi-data-value pi-font"><span id=".*?"><b>(.*?)<\/b><\/span><\/div>/s;
+  const regex =
+    /<h3 class="pi-data-label pi-secondary-font">Creator\(s\)<\/h3>\s*<div class="pi-data-value pi-font">.*?<b>(.*?)<\/b>/s;
   const match = html.match(regex);
   return match ? match[1].trim() : null;
 }
 
-
 function extractImage(html) {
-  const regex =
-    /<div class="wds-tab__content wds-is-current">\s*<figure class="pi-item pi-image">\s*<a href="(.*?)"/s;
+  const regex = /<figure class="pi-item pi-image">.*?<img src="(.*?)"/s;
   const match = html.match(regex);
   return match ? match[1].trim() : null;
 }
