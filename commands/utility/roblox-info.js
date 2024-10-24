@@ -110,6 +110,7 @@ module.exports = {
 
       const infoData = await infoResponse.body.json();
       const avatarData = await avatarResponse.body.json();
+      console.log(avatarData);
 
       const avatarImage = avatarData.data[0].imageUrl;
 
