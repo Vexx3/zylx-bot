@@ -120,7 +120,7 @@ module.exports = {
         .addFields(
           {
             name: "Username",
-            value: `[${infoData.name}](https://www.roblox.com/users/${infoData.id})`,
+            value: `[@${infoData.name}](https://www.roblox.com/users/${infoData.id})`,
             inline: true,
           },
           { name: "ID", value: String(infoData.id), inline: true },
