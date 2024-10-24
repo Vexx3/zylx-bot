@@ -20,6 +20,8 @@ module.exports = {
       const response = await fetch(url);
       const data = await response.text();
 
+      console.log(data);
+
       const difficulty = extractInfo(data, "Difficulty");
       const length = extractInfo(data, "Length", true);
       const creator = extractInfo(data, "Creator(s)");
