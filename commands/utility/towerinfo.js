@@ -20,8 +20,6 @@ module.exports = {
       const response = await fetch(url);
       const data = await response.text();
 
-      console.log(data);
-
       const difficulty = extractInfo(data, "Difficulty");
       const length = extractInfo(data, "Length", true);
       const creator = extractCreators(data, "Creator(s)");
@@ -77,7 +75,16 @@ function extractInfo(html, label, isLength = false) {
       "s"
     );
     const match = html.match(regex);
-    return match ? match[1].trim() : null;
+
+    if (match) {
+      const cleanText = match[1]
+        .replace(/<.*?>/g, "")
+        .replace(/\s+/g, " ")
+        .trim();
+
+      return cleanText;
+    }
+    return null;
   }
 }
 
