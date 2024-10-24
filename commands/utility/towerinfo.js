@@ -59,30 +59,38 @@ module.exports = {
   },
 };
 
-function extractInfo(html, label) {
-  const regex = new RegExp(
-    `<h3 class="pi-data-label pi-secondary-font">${label}</h3>\\s*<div class="pi-data-value pi-font">(.*?)</div>`,
-    "s"
-  );
-  const match = html.match(regex);
+function extractInfo(html, label, isLength = false) {
+  if (isLength) {
+    const regex = new RegExp(
+      `<h3 class="pi-data-label pi-secondary-font">${label}</h3>\\s*<div class="pi-data-value pi-font">(.*?)</div>`,
+      "s"
+    );
+    const match = html.match(regex);
+    return match
+      ? match[1].replace(/&lt;/g, "<").replace(/&gt;/g, ">").trim()
+      : null;
+  } else {
+    const regex = new RegExp(
+      `<h3 class="pi-data-label pi-secondary-font">${label}</h3>\\s*<div class="pi-data-value pi-font">(.*?)</div>`,
+      "s"
+    );
+    const match = html.match(regex);
 
-  if (match) {
-    let cleanText = match[1]
-      .replace(/<sup.*?<\/sup>/g, "")
-      .replace(/<a.*?<\/a>/g, "")
-      .replace(/<.*?>/g, "")
-      .replace(/\s+/g, " ")
-      .trim();
+    if (match) {
+      const cleanText = match[1]
+        .replace(/<.*?>/g, "")
+        .replace(/\s+/g, " ")
+        .trim();
 
-    return cleanText;
+      return cleanText;
+    }
+    return null;
   }
-  return null;
 }
 
 
 function extractCreators(html) {
-  const regex =
-    /<h3 class="pi-data-label pi-secondary-font">Creator\(s\)<\/h3>\s*<div class="pi-data-value pi-font">.*?<b>(.*?)<\/b>/s;
+  const regex = /<h3 class="pi-data-label pi-secondary-font">Creator\(s\)<\/h3>\s*<div class="pi-data-value pi-font">.*?<b>(.*?)<\/b>/s;
   const match = html.match(regex);
   return match ? match[1].trim() : null;
 }
