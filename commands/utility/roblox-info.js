@@ -100,7 +100,7 @@ module.exports = {
     }
 
     const infoUrl = `https://users.roblox.com/v1/users/${robloxId}`;
-    const avatarUrl = `https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=${robloxId}&size=720x720&format=Png&isCircular=false`;
+    const avatarUrl = `https://thumbnails.roblox.com/v1/users/avatar-bust?userIds=${robloxId}&size=720x720&format=Png&isCircular=false`;
 
     try {
       const [infoResponse, avatarResponse] = await Promise.all([
@@ -118,7 +118,11 @@ module.exports = {
         .setTitle(infoData.displayName)
         .setThumbnail(avatarImage)
         .addFields(
-          { name: "Username", value: `[${infoData.name}](https://www.roblox.com/users/${infoData.id})`, inline: true },
+          {
+            name: "Username",
+            value: `[${infoData.name}](https://www.roblox.com/users/${infoData.id})`,
+            inline: true,
+          },
           { name: "ID", value: String(infoData.id), inline: true },
           {
             name: "Account Created",
