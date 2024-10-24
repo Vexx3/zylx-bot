@@ -9,7 +9,7 @@ module.exports = {
       option
         .setName("tower")
         .setDescription("The name of the tower you want information about.")
-        .setRequired(true),
+        .setRequired(true)
     ),
   async execute(interaction) {
     const towerName = interaction.options.getString("tower");
@@ -24,7 +24,7 @@ module.exports = {
 
       const difficulty = extractInfo(data, "Difficulty");
       const length = extractInfo(data, "Length", true);
-      const creator = extractInfo(data, "Creator(s)");
+      const creator = extractCreators(data, "Creator(s)");
       const imageUrl = extractImage(data);
 
       console.log(difficulty, length, creator, imageUrl);
@@ -45,7 +45,7 @@ module.exports = {
         .addFields(
           { name: "Length", value: length },
           { name: "Difficulty", value: difficulty },
-          { name: "Creator(s)", value: creator },
+          { name: "Creator(s)", value: creator }
         )
         .setFooter({ text: "Source: Juke's Towers of Hell Wiki." });
 
@@ -65,7 +65,7 @@ function extractInfo(html, label, isLength = false) {
   if (isLength) {
     const regex = new RegExp(
       `<h3 class="pi-data-label pi-secondary-font">${label}</h3>\\s*<div class="pi-data-value pi-font">(.*?)</div>`,
-      "s",
+      "s"
     );
     const match = html.match(regex);
     return match
@@ -74,7 +74,7 @@ function extractInfo(html, label, isLength = false) {
   } else {
     const regex = new RegExp(
       `<h3 class="pi-data-label pi-secondary-font">${label}</h3>\\s*<div class="pi-data-value pi-font">(.*?)</div>`,
-      "s",
+      "s"
     );
     const match = html.match(regex);
     return match ? match[1].trim() : null;
@@ -82,11 +82,11 @@ function extractInfo(html, label, isLength = false) {
 }
 
 function extractCreators(html) {
-  const regex = /<h3 class="pi-data-label pi-secondary-font">Creator\(s\)<\/h3>\s*<div class="pi-data-value pi-font">.*?<b>(.*?)<\/b>/s;
+  const regex =
+    /<h3 class="pi-data-label pi-secondary-font">Creator\(s\)<\/h3>\s*<div class="pi-data-value pi-font">.*?<b>(.*?)<\/b>/s;
   const match = html.match(regex);
   return match ? match[1].trim() : null;
 }
-
 
 function extractImage(html) {
   const regex = /<figure class="pi-item pi-image">.*?<img src="(.*?)"/s;

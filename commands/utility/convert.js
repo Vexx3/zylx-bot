@@ -4,13 +4,13 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName("convert")
     .setDescription(
-      "Convert between USD and Robux with optional tax and custom rates.",
+      "Convert between USD and Robux with optional tax and custom rates."
     )
     .addNumberOption((option) =>
       option
         .setName("amount")
         .setDescription("The amount to convert")
-        .setRequired(true),
+        .setRequired(true)
     )
     .addStringOption((option) =>
       option
@@ -19,22 +19,22 @@ module.exports = {
         .setRequired(true)
         .addChoices(
           { name: "USD to Robux", value: "usd_to_robux" },
-          { name: "Robux to USD", value: "robux_to_usd" },
-        ),
+          { name: "Robux to USD", value: "robux_to_usd" }
+        )
     )
     .addBooleanOption((option) =>
       option
         .setName("tax")
         .setDescription("Apply 30% tax to nullify sales tax")
-        .setRequired(false),
+        .setRequired(false)
     )
     .addNumberOption((option) =>
       option
         .setName("rate")
         .setDescription(
-          "Custom conversion rate (default: 0.0035 USD per Robux)",
+          "Custom conversion rate (default: 0.0035 USD per Robux)"
         )
-        .setRequired(false),
+        .setRequired(false)
     ),
   async execute(interaction) {
     const amount = interaction.options.getNumber("amount");
@@ -46,7 +46,7 @@ module.exports = {
     let rateDescription;
 
     if (conversionType === "usd_to_robux") {
-      result = Math.floor((amount / customRate));
+      result = Math.floor(amount / customRate);
       let taxText = "";
       if (applyTax) {
         result = Math.floor(result * 0.7);

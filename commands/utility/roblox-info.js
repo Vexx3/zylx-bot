@@ -9,13 +9,13 @@ module.exports = {
       option
         .setName("username")
         .setDescription("The Roblox username to fetch info for")
-        .setRequired(false),
+        .setRequired(false)
     )
     .addUserOption((option) =>
       option
         .setName("discord")
         .setDescription("The Discord user to check for Roblox connection")
-        .setRequired(false),
+        .setRequired(false)
     ),
 
   async execute(interaction) {
@@ -25,7 +25,7 @@ module.exports = {
 
     if (!targetUser && !username) {
       await interaction.reply(
-        "Please provide either a Roblox username or target Discord user.",
+        "Please provide either a Roblox username or target Discord user."
       );
       return;
     }
@@ -50,7 +50,7 @@ module.exports = {
           robloxId = data.robloxID;
         } else {
           await interaction.reply(
-            `The user ${targetUser.tag} does not have a connected Roblox account.`,
+            `The user ${targetUser.tag} does not have a connected Roblox account.`
           );
           return;
         }
@@ -110,7 +110,7 @@ module.exports = {
 
       const infoData = await infoResponse.body.json();
       const avatarData = await avatarResponse.body.json();
-      
+
       const avatarImage = avatarData.data[0].imageUrl;
 
       const embed = new EmbedBuilder()
@@ -126,13 +126,15 @@ module.exports = {
           { name: "ID", value: String(infoData.id), inline: true },
           {
             name: "Account Created",
-            value: `<t:${Math.floor(new Date(infoData.created).getTime() / 1000)}:F>`,
+            value: `<t:${Math.floor(
+              new Date(infoData.created).getTime() / 1000
+            )}:F>`,
             inline: true,
           },
           {
             name: "Description",
             value: infoData.description || "No description",
-          },
+          }
         );
 
       await interaction.reply({ embeds: [embed] });
