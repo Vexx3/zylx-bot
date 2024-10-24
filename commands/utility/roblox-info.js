@@ -13,14 +13,14 @@ module.exports = {
     )
     .addUserOption((option) =>
       option
-        .setName("target")
+        .setName("discord")
         .setDescription("The Discord user to check for Roblox connection")
         .setRequired(false),
     ),
 
   async execute(interaction) {
     const username = interaction.options.getString("username");
-    const targetUser = interaction.options.getUser("target");
+    const targetUser = interaction.options.getUser("discord");
     const guildId = interaction.guild.id;
 
     if (!targetUser && !username) {
@@ -40,7 +40,7 @@ module.exports = {
         const response = await request(bloxlinkUrl, {
           method: "GET",
           headers: {
-            Authorization: `Bearer 5b92d5df-1870-4bee-a80f-ca75cd9f1f0c`,
+            Authorization: `5b92d5df-1870-4bee-a80f-ca75cd9f1f0c`,
           },
         });
 
