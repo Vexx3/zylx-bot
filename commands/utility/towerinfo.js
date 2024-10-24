@@ -21,9 +21,10 @@ module.exports = {
       const data = await response.text();
 
       const difficulty = extractInfo(data, "Difficulty");
-      const length = extractInfo(data, "Length", true);
+      const length = extractInfo(data, "Length");
       const creator = extractCreators(data, "Creator(s)");
       const imageUrl = extractImage(data);
+      const description = extractDescription(data);
 
       if (!length | !difficulty | !creator | !imageUrl) {
         await interaction.reply({
@@ -41,7 +42,8 @@ module.exports = {
         .addFields(
           { name: "Length", value: length },
           { name: "Difficulty", value: difficulty },
-          { name: "Creator(s)", value: creator }
+          { name: "Creator(s)", value: creator },
+          { name: "Description", value: description }
         )
         .setFooter({ text: "Source: Juke's Towers of Hell Wiki." });
 
@@ -57,34 +59,26 @@ module.exports = {
   },
 };
 
-function extractInfo(html, label, isLength = false) {
-  if (isLength) {
-    const regex = new RegExp(
-      `<h3 class="pi-data-label pi-secondary-font">${label}</h3>\\s*<div class="pi-data-value pi-font">(.*?)</div>`,
-      "s"
-    );
-    const match = html.match(regex);
-    return match
-      ? match[1].replace(/&lt;/g, "<").replace(/&gt;/g, ">").trim()
-      : null;
-  } else {
-    const regex = new RegExp(
-      `<h3 class="pi-data-label pi-secondary-font">${label}</h3>\\s*<div class="pi-data-value pi-font">(.*?)</div>`,
-      "s"
-    );
-    const match = html.match(regex);
+function extractInfo(html, label) {
+  const regex = new RegExp(
+    `<h3 class="pi-data-label pi-secondary-font">${label}</h3>\\s*<div class="pi-data-value pi-font">(.*?)</div>`,
+    "s"
+  );
+  const match = html.match(regex);
 
-    if (match) {
-      const cleanText = match[1]
-        .replace(/<.*?>/g, "")
-        .replace(/\s+/g, " ")
-        .trim();
+  if (match) {
+    let cleanText = match[1]
+      .replace(/<sup.*?<\/sup>/g, "")
+      .replace(/<a.*?<\/a>/g, "")
+      .replace(/<.*?>/g, "")
+      .replace(/\s+/g, " ")
+      .trim();
 
-      return cleanText;
-    }
-    return null;
+    return cleanText;
   }
+  return null;
 }
+
 
 function extractCreators(html) {
   const regex =
@@ -103,4 +97,19 @@ function extractImage(html) {
   }
 
   return match ? match[1].trim() : null;
+}
+
+function extractDescription(html) {
+  const regex = /<p>(.*?)<\/p>/s;
+  const match = html.match(regex);
+
+  if (match) {
+    // Remove any remaining HTML tags and return clean text
+    let description = match[1]
+      .replace(/<.*?>/g, "") // Remove all HTML tags
+      .replace(/\s+/g, " ") // Replace multiple spaces with a single space
+      .trim();
+    return description;
+  }
+  return null;
 }
