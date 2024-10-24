@@ -80,10 +80,13 @@ function extractInfo(html, label, isLength = false) {
 }
 
 function extractCreators(html) {
-  const regex =
-    /<h3 class="pi-data-label pi-secondary-font">Creator\(s\)<\/h3>\s*<div class="pi-data-value pi-font">.*?<b>(.*?)<\/b>/s;
+  const regex = /<h3 class="pi-data-label pi-secondary-font">Creator\(s\)<\/h3>\s*<div class="pi-data-value pi-font">(.*?)<\/div>/s;
   const match = html.match(regex);
-  return match ? match[1].trim() : null;
+  if (match) {
+    const creatorText = match[1].replace(/<[^>]*>/g, '').trim();
+    return creatorText;
+  }
+  return null;
 }
 
 function extractImage(html) {
