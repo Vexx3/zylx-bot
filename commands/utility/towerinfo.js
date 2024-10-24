@@ -25,8 +25,6 @@ module.exports = {
       const creator = extractCreators(data, "Creator(s)");
       const imageUrl = extractImage(data);
 
-      console.log(difficulty, length, creator, imageUrl);
-
       if (!length | !difficulty | !creator | !imageUrl) {
         await interaction.reply({
           content:
@@ -39,7 +37,7 @@ module.exports = {
       const towerEmbed = new EmbedBuilder()
         .setColor("#0099ff")
         .setTitle(`Information about ${towerName}`)
-        .setThumbnail(imageUrl)
+        .setImage(imageUrl)
         .addFields(
           { name: "Length", value: length },
           { name: "Difficulty", value: difficulty },
