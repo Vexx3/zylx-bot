@@ -96,7 +96,13 @@ function extractCreators(html) {
 }
 
 function extractImage(html) {
-  const regex = /<figure class="pi-item pi-image">.*?<img src="(.*?)"/s;
-  const match = html.match(regex);
+  let regex = /<figure class="pi-item pi-image">.*?<img src="(.*?)"/s;
+  let match = html.match(regex);
+
+  if (!match) {
+    regex = /<figure class="pi-item pi-image".*?<a href="(.*?)"/s;
+    match = html.match(regex);
+  }
+
   return match ? match[1].trim() : null;
 }
