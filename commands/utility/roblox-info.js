@@ -100,7 +100,7 @@ module.exports = {
     }
 
     const infoUrl = `https://users.roblox.com/v1/users/${robloxId}`;
-    const avatarUrl = `https://thumbnails.roblox.com/v1/users/avatar-bust?userIds=${robloxId}&size=720x720&format=Png&isCircular=false`;
+    const avatarUrl = `https://thumbnails.roblox.com/v1/users/avatar-bust?userIds=${robloxId}&size=420x420&format=Png&isCircular=false`;
 
     try {
       const [infoResponse, avatarResponse] = await Promise.all([
@@ -110,8 +110,7 @@ module.exports = {
 
       const infoData = await infoResponse.body.json();
       const avatarData = await avatarResponse.body.json();
-      console.log(avatarData);
-
+      
       const avatarImage = avatarData.data[0].imageUrl;
 
       const embed = new EmbedBuilder()
