@@ -24,6 +24,8 @@ module.exports = {
       const length = extractInfo(data, "Length", true);
       const creator = extractInfo(data, "Creator(s)");
 
+      console.log(difficulty, length, creator);
+
       if (!length | !difficulty | !creator) {
         await interaction.reply({ content: "Could not retrieve tower information. Please check the tower name and try again.", ephemeral: true });
         return;
