@@ -4,13 +4,13 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName("convert")
     .setDescription(
-      "Convert between USD and Robux with optional tax and custom rates."
+      "Convert between USD and Robux with optional tax and custom rates.",
     )
     .addNumberOption((option) =>
       option
         .setName("amount")
         .setDescription("The amount to convert")
-        .setRequired(true)
+        .setRequired(true),
     )
     .addStringOption((option) =>
       option
@@ -19,22 +19,22 @@ module.exports = {
         .setRequired(true)
         .addChoices(
           { name: "USD to Robux", value: "usd_to_robux" },
-          { name: "Robux to USD", value: "robux_to_usd" }
-        )
+          { name: "Robux to USD", value: "robux_to_usd" },
+        ),
     )
     .addBooleanOption((option) =>
       option
         .setName("tax")
         .setDescription("Apply 30% tax to nullify sales tax")
-        .setRequired(false)
+        .setRequired(false),
     )
     .addNumberOption((option) =>
       option
         .setName("rate")
         .setDescription(
-          "Custom conversion rate (default: 0.0035 USD per Robux)"
+          "Custom conversion rate (default: 0.0035 USD per Robux)",
         )
-        .setRequired(false)
+        .setRequired(false),
     ),
   async execute(interaction) {
     const amount = interaction.options.getNumber("amount");
@@ -46,43 +46,29 @@ module.exports = {
     let rateDescription;
 
     if (conversionType === "usd_to_robux") {
-      result = amount / customRate;
+      result = Math.floor((amount / customRate));
+      let taxText = "";
       if (applyTax) {
-        result *= 0.7;
+        result = Math.floor(result * 0.7);
+        taxText = "+ 30% (tax)";
       }
-      rateDescription = `${amount} USD is approximately ${Math.round(
-        result
-      )} Robux at a rate of ${customRate} USD per Robux.`;
+      rateDescription = `$ ${amount} ÷ ${customRate} (rate) ${taxText} = **R$ ${result}**`;
     } else if (conversionType === "robux_to_usd") {
-      result = amount * customRate;
+      result = Math.floor(amount * customRate);
+      let taxText = "";
       if (applyTax) {
-        result *= 0.7;
+        result = Math.floor((result *= 1.3));
+        taxText = "+ 30% (tax)";
       }
-      rateDescription = `${amount} Robux is approximately $${result.toFixed(
-        2
-      )} USD at a rate of ${customRate} USD per Robux.`;
+      rateDescription = `R$ ${amount} x ${customRate} (rate) ${taxText} = **$ ${result}**`;
     }
 
     const embed = new EmbedBuilder()
       .setColor("#0099ff")
-      .setTitle("Conversion Result")
       .setDescription(rateDescription)
-      .addFields(
-        { name: "Amount", value: `${amount}`, inline: true },
-        {
-          name: "Conversion Type",
-          value: conversionType.replace("_", " ").toUpperCase(),
-          inline: true,
-        },
-        {
-          name: "Applied Tax",
-          value: applyTax ? "Yes (+30%)" : "No",
-          inline: true,
-        },
-        { name: "Custom Rate", value: `${customRate} USD/Robux`, inline: true }
-      )
-      .setFooter({ text: "Robux Convert" })
-      .setTimestamp();
+      .setFooter({
+        text: "The DevEx exchange rate is $.0035/R$. The sales tax is %30",
+      });
     await interaction.reply({ embeds: [embed] });
   },
 };
